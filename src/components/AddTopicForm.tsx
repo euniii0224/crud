@@ -1,33 +1,23 @@
 'use client'
 
-import { updateTopic } from '@/actions/topicActions'
+import { createTopic } from '@/actions/topicActions'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface EditTopicFormProps {
-  id: string
-  initialTitle: string
-  initialDescription: string
-}
-
-export default function EditTopicForm({
-  id,
-  initialTitle,
-  initialDescription,
-}: EditTopicFormProps) {
-  const [title, setTitle] = useState(initialTitle)
-  const [description, setDescription] = useState(initialDescription)
+export default function AddTopicForm() {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
-      await updateTopic(id, title, description)
-      router.push('/') // 수정 후 메인 페이지로 이동
+      await createTopic(title, description)
+      router.push('/') // 생성 후 메인 페이지로 이동
     } catch (error) {
-      console.error('토픽 수정 중 오류:', error)
-      alert('토픽 수정 중 오류가 발생했습니다.')
+      console.error('토픽 생성 중 오류:', error)
+      alert('토픽 생성 중 오류가 발생했습니다.')
     }
   }
 
@@ -52,7 +42,7 @@ export default function EditTopicForm({
         type="submit"
         className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
       >
-        수정하기
+        토픽 추가하기
       </button>
     </form>
   )
