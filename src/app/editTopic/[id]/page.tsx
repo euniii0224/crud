@@ -10,7 +10,7 @@ const getTopicById = async (id: string) => {
       cache: 'no-store',
     })
     if (!res.ok) {
-      throw new Error('Topic을 읽어오지 못했습니다')
+      throw new Error('Failed to fetch topic')
     }
     return res.json()
   } catch (error) {
@@ -18,16 +18,19 @@ const getTopicById = async (id: string) => {
   }
 }
 
-export default async function EditTopicpage({
+export default async function EditTopic({
   params,
 }: {
   params: { id: string }
 }) {
-  const session = await auth()
-  if (!session) redirect('/login')
   const { id } = params
   const { topic } = await getTopicById(id)
   const { title, description } = topic
+
+  const session = await auth()
+  if (!session) {
+    redirect('/login')
+  }
 
   return <EditTopicForm id={id} title={title} description={description} />
 }

@@ -1,6 +1,7 @@
 'use client'
+
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 interface EditTopicFormProps {
   id: string
@@ -30,8 +31,8 @@ export default function EditTopicForm({
       if (!res.ok) {
         throw new Error('Failed to update topic')
       }
-      router.refresh()
       router.push('/')
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
@@ -50,13 +51,14 @@ export default function EditTopicForm({
       />
       <textarea
         className="border border-slate-500 p-4 h-32"
-        placeholder="Topic Descripition"
+        placeholder="Topic Description"
+        value={newDescription}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           setNewDescription(e.target.value)
         }
       />
       <button
-        className="bg-green-800 text-white font-bold px-6 py-3 w-fit rounded-md"
+        className="bg-green-800 hover:bg-green-900 text-white font-bold px-6 py-3 w-fit rounded-md"
         type="submit"
       >
         Update Topic
